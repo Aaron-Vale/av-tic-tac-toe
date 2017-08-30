@@ -1,2 +1,8 @@
 $icon-font-path: '~bootstrap-sass/assets/fonts/bootstrap/';
 @import '~bootstrap-sass/assets/stylesheets/bootstrap';
+@import 'game-board';
+@import 'colors';
+@import 'sizes';
+@import 'login';
+@import 'functions';
+@import 'typography';

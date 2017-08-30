@@ -1,0 +1,70 @@
+@import 'sizes';
+@import 'colors';
+
+aside {
+  border-right: 1px solid $black;
+  float: left;
+  height: 100%;
+  width: 25%;
+}
+
+.board-background {
+  background-color: $green-monster;
+  height: 3 * $square-height;
+  margin: 10% auto;
+  width: 3 * $square-height;
+}
+
+.board-div {
+  float: left;
+  height: 100%;
+  width: 75%;
+}
+
+.board-square {
+  border: 1px solid $black;
+  float: left;
+  height: $square-height;
+  width: $square-height;
+}
+
+.container-fluid {
+  border: 0;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+.content {
+  height: 90%;
+  position: relative;
+}
+
+.game-view {
+  height: 100%;
+}
+
+h1 {
+  float: left;
+  margin: 0;
+  text-align: center;
+}
+
+h2 {
+  margin: 0;
+  text-align: center;
+}
+
+header {
+  border-bottom: 1px solid $black;
+  height: 10%;
+  width: 100%;
+}
+
+html {
+  height: 100%;
+}
+
+.sign-out-btn {
+  float: right;
+}
