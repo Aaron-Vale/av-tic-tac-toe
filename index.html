@@ -12,11 +12,68 @@
       <script src="public/application.js" type="text/javascript" charset="utf-8" defer></script>
     </head>
     <body class="container-fluid">
+      <div class="container login-view">
+        <div class="row">
+          <div class="col-xs-2">
+          </div>
+          <div class="col-xs-8">
+            <h1 class="login-title">Tic-Tac-Toe</h1>
+          </div>
+          <div class="col-xs-2">
+          </div>
+        </div>
 
-      <div class="game-view">
+        <div class="row">
+          <div class="col-xs-2">
+          </div>
+          <div class="col-xs-2">
+            <h2 class="login-subhead">Log In</h2>
+          </div>
+          <div class="col-xs-4">
+          </div>
+          <div class="col-xs-2">
+            <h2 class="login-subhead">Sign Up</h2>
+          </div>
+          <div class="col-xs-2">
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-xs-2">
+          </div>
+          <div class="col-xs-2">
+            <form id="login-form">
+              <div class="form-group">
+                <input type="email" name="credentials[email]" id="login-email" placeholder="Your Email">
+                <input type="password" name="credentials[password]" id="login-password" placeholder="Your Password">
+              </div>
+              <button type="submit" class="btn btn-success">Log In</button>
+            </form>
+          </div>
+          <div class="col-xs-4">
+          </div>
+          <div class="col-xs-2">
+            <form id="signup-form">
+              <div class="form-group">
+                <input type="email" name="credentials[email]" id="signup-email" placeholder="Your Email">
+                <input type="password" name="credentials[password]" id="signup-password" placeholder="Your Password">
+                <input type="password" name="credentials[password_confirmation]" id="signup-password-confirmation" placeholder="Confirm Password">
+              </div>
+              <button type="submit" class="btn btn-success">Register</button>
+            </form>
+          </div>
+          <div class="col-xs-2">
+          </div>
+        </div>
+      </div>
+      <!--End Login-View  -->
+
+
+      <!-- Start Game-View -->
+      <div class="game-view hidden">
         <header>
           <h1>Tic Tac Toe</h1>
-          <button class="btn btn-success sign-out-btn">Sign Out</button>
+          <button class="btn btn-success logout-btn">Sign Out</button>
         </header>
         <div class="content">
           <aside>

@@ -1,7 +1,6 @@
 'use strict'
 
-const boardData = ['', '', '', '', '', '', '', '', '']
-let whoseTurn = 'x'
+const store = require('./game-store')
 
 const checkForWinner = function () {
   const winningCombos = [
@@ -14,24 +13,21 @@ const checkForWinner = function () {
     [0, 4, 8],
     [2, 4, 6]
   ]
-  const winningNumbers = []
   for (let i = 0; i < winningCombos.length; i++) {
     const val1 = winningCombos[i][0]
     const val2 = winningCombos[i][1]
     const val3 = winningCombos[i][2]
-    if (boardData[val1] !== '' && boardData[val2] !== '' && boardData[val3] !== '') {
-      if (boardData[val1] === boardData[val2] && boardData[val2] === boardData[val3]) {
-        winningNumbers.push(val1)
-        winningNumbers.push(val2)
-        winningNumbers.push(val3)
+    if (store.boardData[val1] !== '' && store.boardData[val2] !== '' && store.boardData[val3] !== '') {
+      if (store.boardData[val1] === store.boardData[val2] && store.boardData[val2] === store.boardData[val3]) {
+        store.winningNumbers.push(val1)
+        store.winningNumbers.push(val2)
+        store.winningNumbers.push(val3)
       }
     }
   }
-  return winningNumbers
+  return store.winningNumbers
 }
 
 module.exports = {
-  boardData,
-  whoseTurn,
   checkForWinner
 }

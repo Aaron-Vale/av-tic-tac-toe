@@ -1,0 +1,26 @@
+@import 'colors';
+
+input {
+  margin-top: 10px;
+}
+
+.login-title {
+  border: 5px solid $black;
+  font-size: 100px;
+  font-weight: 800;
+  letter-spacing: .1em;
+  width: 100%;
+}
+
+.login-subhead {
+  border: 3px solid $black;
+  font-size: 48px;
+  font-weight: 500;
+  margin-top: 50%;
+  width: 100%;
+}
+
+.login-view {
+  height: 100%;
+  width: 100%;
+}

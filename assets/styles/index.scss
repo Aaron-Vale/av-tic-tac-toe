@@ -6,3 +6,7 @@ $icon-font-path: '~bootstrap-sass/assets/fonts/bootstrap/';
 @import 'login';
 @import 'functions';
 @import 'typography';
+
+.hidden {
+  display: none;
+}
