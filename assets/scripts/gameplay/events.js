@@ -1,6 +1,9 @@
 'use strict'
 const logic = require('./logic')
 const store = require('./game-store')
+const getFormFields = require('../../../lib/get-form-fields')
+const gameApi = require('./api')
+const gameUi = require('./ui')
 
 const gameReset = function () {
   $('.board-square').removeClass('played').html('') // Reset board status
@@ -43,10 +46,19 @@ const onLogout = function () {
   $('.login-view').removeClass('hidden')
 }
 
+const onSignup = function (event) {
+  event.preventDefault()
+  const data = getFormFields(event.target)
+  gameApi.signUp(data)
+    .then(gameUi.onSignUpSuccess)
+    .catch(gameUi.onSignUpFailure)
+}
+
 const setEventListeners = function () {
   $('.board-square').on('click', onClickSquare)
   $('#login-form').on('submit', onLogin)
   $('.logout-btn').on('click', onLogout)
+  $('#signup-form').on('submit', onSignup)
 }
 
 module.exports = {

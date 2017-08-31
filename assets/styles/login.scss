@@ -1,5 +1,21 @@
 @import 'colors';
 
+.alert {
+  text-align: center;
+}
+
+footer {
+  border-top: 1px solid $black;
+  bottom: 0;
+  height: 10%;
+  position: absolute;
+  width: 100%;
+}
+
+.footer-text {
+  text-align: center;
+}
+
 input {
   margin-top: 10px;
 }
@@ -9,6 +25,7 @@ input {
   font-size: 100px;
   font-weight: 800;
   letter-spacing: .1em;
+  margin-top: 12%;
   width: 100%;
 }
 
@@ -22,5 +39,10 @@ input {
 
 .login-view {
   height: 100%;
+  padding: 0;
+  width: 100%;
+}
+
+.signup-info {
   width: 100%;
 }
