@@ -25,6 +25,10 @@ const checkForWinner = function () {
       }
     }
   }
+  let tieIndicator = store.boardData.toString().replace(/,/g, '')
+  if (store.winningNumbers.length === 0 && tieIndicator.length === 9) {
+    return 0
+  }
   return store.winningNumbers
 }
 

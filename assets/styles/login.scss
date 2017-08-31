@@ -1,4 +1,5 @@
 @import 'colors';
+@import 'typography';
 
 .alert {
   text-align: center;
@@ -7,6 +8,8 @@
 footer {
   border-top: 1px solid $black;
   bottom: 0;
+  color: $green-monster-white;
+  font-family: Roboto;
   height: 10%;
   position: absolute;
   width: 100%;
@@ -21,7 +24,9 @@ input {
 }
 
 .login-title {
-  border: 5px solid $black;
+  border: 10px solid $green-monster-white;
+  color: $green-monster-white;
+  font-family: Roboto;
   font-size: 100px;
   font-weight: 800;
   letter-spacing: .1em;
@@ -30,7 +35,9 @@ input {
 }
 
 .login-subhead {
-  border: 3px solid $black;
+  border: 10px solid $green-monster-white;
+  color: $green-monster-white;
+  font-family: Roboto;
   font-size: 48px;
   font-weight: 500;
   margin-top: 50%;
@@ -38,6 +45,7 @@ input {
 }
 
 .login-view {
+  background-color: $green-monster;
   height: 100%;
   padding: 0;
   width: 100%;

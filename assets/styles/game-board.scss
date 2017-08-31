@@ -1,24 +1,25 @@
 @import 'sizes';
 @import 'colors';
+@import 'typography';
 
-aside {
-  border-right: 1px solid $black;
+.aside {
+  background-color: $green-monster;
+  border-right: 5px solid $green-monster-white;
   float: left;
   height: 100%;
-  width: 25%;
 }
 
 .board-background {
-  background-color: $green-monster;
+  background-color: $green-monster-white;
   height: 3 * $square-height;
   margin: 10% auto;
   width: 3 * $square-height;
 }
 
 .board-div {
+  background-color: $green-monster;
   float: left;
   height: 100%;
-  width: 75%;
 }
 
 .board-square {
@@ -26,6 +27,12 @@ aside {
   float: left;
   height: $square-height;
   width: $square-height;
+}
+
+.container {
+  height: 100%;
+  padding: 0;
+  width: 100%;
 }
 
 .container-fluid {
@@ -40,23 +47,36 @@ aside {
   position: relative;
 }
 
+.fenway-jumbotron {
+  background-color: $black;
+  height: 280px;
+  width: 280px;
+}
+
 .game-view {
   height: 100%;
 }
 
 h1 {
-  float: left;
-  margin: 0;
+  border: 5px solid $green-monster-white;
+  color: $green-monster-white;
+  float: none;
+  font-family: Roboto;
+  margin-top: 5px;
   text-align: center;
 }
 
 h2 {
-  margin: 0;
+  border: 5px solid $green-monster-white;
+  color: $green-monster-white;
+  font-family: Roboto;
+  margin-top: 5px;
   text-align: center;
 }
 
-header {
-  border-bottom: 1px solid $black;
+.header {
+  background-color: $green-monster;
+  border-bottom: 5px solid $green-monster-white;
   height: 10%;
   width: 100%;
 }
@@ -65,6 +85,16 @@ html {
   height: 100%;
 }
 
+.jumbotron-text {
+  color: $yellow;
+  font-family: 'Andale Mono';
+}
+
 .logout-btn {
   float: right;
+}
+
+.row {
+  margin: 0;
+  padding: 0;
 }

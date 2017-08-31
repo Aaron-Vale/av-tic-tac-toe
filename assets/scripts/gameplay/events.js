@@ -4,12 +4,13 @@ const store = require('./game-store')
 const getFormFields = require('../../../lib/get-form-fields')
 const gameApi = require('./api')
 const gameUi = require('./ui')
+const userStore = require('../store')
 
 const gameReset = function () {
   $('.board-square').removeClass('played').html('') // Reset board status
   $('.board-square').on('click', onClickSquare) // Reset event listeners
   $('#0, #1, #2, #3, #4, #5, #6, #7, #8').each(function () {
-    $(this).css('background-color', '#54796d')
+    $(this).css('background-color', '#e4e4e4')
   }) // Reset square background color
   store.boardData = ['', '', '', '', '', '', '', '', ''] // Reset Board Store Data
   store.whoseTurn = 'x'
@@ -25,23 +26,35 @@ const onClickSquare = function () {
     store.whoseTurn = (letterToPlay === 'x' ? 'o' : 'x')
     $(this).addClass('played')
     const winner = logic.checkForWinner()
-    if (winner.length > 0) {
+    if (winner === 0) {
       $('.board-square').off() // No more moves allowed
-      $('#' + winner[0]).css('background-color', 'gold')
-      $('#' + winner[1]).css('background-color', 'gold')
-      $('#' + winner[2]).css('background-color', 'gold')
+      $('.jumbotron-text').text("It's a tie...")
+    }
+    if (winner.length === 3) { // If a Winner is Detected
+      $('.board-square').off() // No more moves allowed
+      $('#' + winner[0]).css('background-color', '#00335D')
+      $('#' + winner[1]).css('background-color', '#00335D')
+      $('#' + winner[2]).css('background-color', '#00335D')
+      $('.jumbotron-text').text('').html('<h3>WINNER:<br>' + letterToPlay.toUpperCase() + '!</h3>')
     }
   }
 }
 
 const onLogin = function (event) {
   event.preventDefault()
-  $('.login-view').addClass('hidden')
-  $('.game-view').removeClass('hidden')
+  const data = getFormFields(event.target)
+  gameApi.login(data)
+    .then(gameUi.onSignInSuccess)
+    .catch(gameUi.onSignInFailure)
 }
 
 const onLogout = function () {
   gameReset()
+  const data = userStore.userSession
+  gameApi.logout(data)
+    .then(gameUi.onLogoutSuccess)
+    .catch(gameUi.onLogoutFailure)
+  userStore.userSession = null
   $('.game-view').addClass('hidden')
   $('.login-view').removeClass('hidden')
 }

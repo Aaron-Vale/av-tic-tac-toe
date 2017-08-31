@@ -1,7 +1,18 @@
 @import 'colors';
 
+@font-face {
+  font-family: 'Roboto';
+  src: url('../fonts/Roboto-Black.ttf');
+}
+
+@font-face {
+  font-family: 'Orbitron';
+  src: url('../fonts/Orbitron-Regular.ttf');
+}
+
 .move {
-  color: $green-monster-white;
+  color: $green-monster;
+  font-family: Roboto;
   font-size: 6em;
   margin-top: 10px;
   text-align: center;
