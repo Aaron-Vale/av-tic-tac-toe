@@ -14,7 +14,7 @@
     <body class="container-fluid">
       <!--Start Login View -->
       <div class="container login-view">
-        <div id="alert-div" class="alert hidden" role="alert">
+        <div id="alert-div" class="alert alert-div hidden" role="alert">
         </div>
         <div class="row">
           <div class="col-xs-2">
@@ -85,10 +85,40 @@
             <div class="col-xs-4">
               <h1>Tic Tac Toe</h1>
             </div>
-            <div class="col-xs-2">
+            <div class="col-xs-1">
             </div>
-            <div class="col-xs-2">
-              <button class="btn btn-success logout-btn">Sign Out</button>
+            <div class="col-xs-3">
+              <div class="buttons">
+                <button type="button" class="btn game-btn change-pass" data-toggle="modal" data-target="#changePassModal">Change Password</button>
+                <button class="btn game-btn logout-btn">Sign Out</button>
+                <!--Modal  -->
+                <div class="modal fade" id="changePassModal" tabindex="-1" aria-hidden="true">
+                  <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Change Password</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                      </div>
+                      <div class="modal-body">
+                        <form id="change-pass">
+                          <div class="form-group">
+                            <label class="form-control-label">Old Password</label>
+                            <input type="password" class="form-control" name="passwords[old]" placeholder="Old Password">
+                          </div>
+                          <div class="form-group">
+                            <label class="form-control-label">New Password</label>
+                            <input type="password" class="form-control" name="passwords[new]" placeholder="New Password">
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                          </div>
+                        </form>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
             </div>
           </div>
           <div class="row content">

@@ -29,6 +29,12 @@
   width: $square-height;
 }
 
+.buttons {
+  display: inline-block;
+  float: right;
+  margin-top: 15px;
+}
+
 .container {
   height: 100%;
   padding: 0;
@@ -51,6 +57,11 @@
   background-color: $black;
   height: 280px;
   width: 280px;
+}
+
+.game-btn {
+  background-color: $red-sox-red;
+  color: $red-sox-blue;
 }
 
 .game-view {
@@ -87,11 +98,7 @@ html {
 
 .jumbotron-text {
   color: $yellow;
-  font-family: 'Andale Mono';
-}
-
-.logout-btn {
-  float: right;
+  font-family: 'Verdana';
 }
 
 .row {

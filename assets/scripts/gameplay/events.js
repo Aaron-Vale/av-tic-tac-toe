@@ -67,11 +67,21 @@ const onSignup = function (event) {
     .catch(gameUi.onSignUpFailure)
 }
 
+const onChangePass = function (event) {
+  event.preventDefault()
+  const data = getFormFields(event.target)
+  gameApi.changePass(data)
+    .then(gameUi.onChangePassSuccess)
+    .catch(gameUi.onChangePassFailure)
+  $('#changePassModal').modal('hide')
+}
+
 const setEventListeners = function () {
   $('.board-square').on('click', onClickSquare)
   $('#login-form').on('submit', onLogin)
   $('.logout-btn').on('click', onLogout)
   $('#signup-form').on('submit', onSignup)
+  $('#change-pass').on('submit', onChangePass)
 }
 
 module.exports = {

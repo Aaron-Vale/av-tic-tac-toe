@@ -41,11 +41,21 @@ const onLogoutFailure = function () {
   console.log('uh oh.')
 }
 
+const onChangePassSuccess = function () {
+  $('.jumbotron-text').text('Password successfully changed.')
+}
+
+const onChangePassFailure = function () {
+  $('.jumbotron-text').text('Something went wrong. Please try again.')
+}
+
 module.exports = {
   onSignUpSuccess,
   onSignUpFailure,
   onSignInSuccess,
   onSignInFailure,
   onLogoutSuccess,
-  onLogoutFailure
+  onLogoutFailure,
+  onChangePassSuccess,
+  onChangePassFailure
 }
