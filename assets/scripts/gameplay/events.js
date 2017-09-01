@@ -25,18 +25,54 @@ const onClickSquare = function () {
     store.boardData[squareId] = letterToPlay
     store.whoseTurn = (letterToPlay === 'x' ? 'o' : 'x')
     $(this).addClass('played')
-    const winner = logic.checkForWinner()
-    if (winner === 0) {
+    let isOver = false
+    const winningNumbers = logic.checkForWinner(store.boardData)
+    if (winningNumbers === 0) { // If there is a Tie
       $('.board-square').off() // No more moves allowed
       $('.jumbotron-text').text("It's a tie...")
+      $('.jumbotron-text').fadeIn(200).fadeOut(200).fadeIn(200).fadeOut(200).fadeIn(200)
+      $('#reset-btn').removeClass('hidden')
+      isOver = true
+
+      // Update Scoreboard
+      let xTies = parseInt($('#x-ties').html())
+      let oTies = parseInt($('#o-ties').html())
+      xTies++
+      oTies++
+      $('#x-ties').html(xTies)
+      $('#o-ties').html(oTies)
     }
-    if (winner.length === 3) { // If a Winner is Detected
+    if (winningNumbers.length === 3) { // If a Winner is Detected
       $('.board-square').off() // No more moves allowed
-      $('#' + winner[0]).css('background-color', '#00335D')
-      $('#' + winner[1]).css('background-color', '#00335D')
-      $('#' + winner[2]).css('background-color', '#00335D')
+      $('#' + winningNumbers[0]).css('background-color', '#00335D')
+      $('#' + winningNumbers[1]).css('background-color', '#00335D')
+      $('#' + winningNumbers[2]).css('background-color', '#00335D')
       $('.jumbotron-text').text('').html('<h3>WINNER:<br>' + letterToPlay.toUpperCase() + '!</h3>')
+      $('.jumbotron-text').fadeIn(200).fadeOut(200).fadeIn(200).fadeOut(200).fadeIn(200)
+      $('#reset-btn').removeClass('hidden')
+      isOver = true
+
+      // Update Scoreboard
+      let xWins = parseInt($('#x-wins').html())
+      let oWins = parseInt($('#o-wins').html())
+      let xLosses = parseInt($('#x-losses').html())
+      let oLosses = parseInt($('#o-losses').html())
+      const winner = letterToPlay
+      const loser = winner === 'x' ? 'o' : 'x'
+
+      winner === 'x' ? xWins++ : oWins++
+      loser === 'x' ? xLosses++ : oLosses++
+
+      $('#x-wins').html(xWins)
+      $('#o-wins').html(oWins)
+      $('#x-losses').html(xLosses)
+      $('#o-losses').html(oLosses)
     }
+    // Update Game Status to API
+
+    gameApi.updateGame(squareId, letterToPlay, isOver)
+      .then(gameUi.updateGameSuccess)
+      .catch(gameUi.updateGameFailure)
   }
 }
 
@@ -82,6 +118,15 @@ const setEventListeners = function () {
   $('.logout-btn').on('click', onLogout)
   $('#signup-form').on('submit', onSignup)
   $('#change-pass').on('submit', onChangePass)
+  $('#reset-btn').on('click', function () {
+    gameReset()
+    $('#reset-btn').addClass('hidden')
+    const token = userStore.userSession.user.token
+    // Create New Game on API
+    gameApi.createGame(token)
+      .then(gameUi.createGameSuccess)
+      .catch(gameUi.createGameFailure)
+  })
 }
 
 module.exports = {

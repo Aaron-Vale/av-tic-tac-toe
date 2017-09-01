@@ -44,9 +44,54 @@ const changePass = function (data) {
   })
 }
 
+const createGame = function (token) {
+  return $.ajax({
+    url: config.apiOrigin + '/games',
+    method: 'POST',
+    headers: {
+      Authorization: 'Token token=' + token
+    },
+    data: {}
+  })
+}
+
+const getGames = function (token) {
+  return $.ajax({
+    url: config.apiOrigin + '/games?over=true',
+    method: 'GET',
+    headers: {
+      Authorization: 'Token token=' + token
+    }
+  })
+}
+
+const updateGame = function (index, value, isOver) {
+  const gameId = store.gameId
+  const token = store.userSession.user.token
+  return $.ajax({
+    url: config.apiOrigin + '/games/' + gameId,
+    method: 'PATCH',
+    headers: {
+      Authorization: 'Token token=' + token
+    },
+    data: {
+      "game": {
+        "cell": {
+          "index": index,
+          "value": value
+        },
+        "over": isOver
+      }
+    }
+  })
+}
+
 module.exports = {
   signUp,
   login,
   logout,
-  changePass
+  changePass,
+  createGame,
+  getGames,
+  updateGame
 }

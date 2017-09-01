@@ -12,7 +12,7 @@
 .board-background {
   background-color: $green-monster-white;
   height: 3 * $square-height;
-  margin: 10% auto;
+  margin: 11% auto;
   width: 3 * $square-height;
 }
 
@@ -20,6 +20,7 @@
   background-color: $green-monster;
   float: left;
   height: 100%;
+  position: relative;
 }
 
 .board-square {

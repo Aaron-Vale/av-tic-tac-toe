@@ -2,7 +2,7 @@
 
 const store = require('./game-store')
 
-const checkForWinner = function () {
+const checkForWinner = function (board) {
   const winningCombos = [
     [0, 1, 2],
     [3, 4, 5],
@@ -17,15 +17,15 @@ const checkForWinner = function () {
     const val1 = winningCombos[i][0]
     const val2 = winningCombos[i][1]
     const val3 = winningCombos[i][2]
-    if (store.boardData[val1] !== '' && store.boardData[val2] !== '' && store.boardData[val3] !== '') {
-      if (store.boardData[val1] === store.boardData[val2] && store.boardData[val2] === store.boardData[val3]) {
+    if (board[val1] !== '' && board[val2] !== '' && board[val3] !== '') {
+      if (board[val1] === board[val2] && board[val2] === board[val3]) {
         store.winningNumbers.push(val1)
         store.winningNumbers.push(val2)
         store.winningNumbers.push(val3)
       }
     }
   }
-  let tieIndicator = store.boardData.toString().replace(/,/g, '')
+  let tieIndicator = board.toString().replace(/,/g, '')
   if (store.winningNumbers.length === 0 && tieIndicator.length === 9) {
     return 0
   }

@@ -85,10 +85,9 @@
             <div class="col-xs-4">
               <h1>Tic Tac Toe</h1>
             </div>
-            <div class="col-xs-1">
-            </div>
-            <div class="col-xs-3">
+            <div class="col-xs-4">
               <div class="buttons">
+                <button id="reset-btn" class="btn btn-default hidden">Play Again?</button>
                 <button type="button" class="btn game-btn change-pass" data-toggle="modal" data-target="#changePassModal">Change Password</button>
                 <button class="btn game-btn logout-btn">Sign Out</button>
                 <!--Modal  -->
@@ -127,8 +126,29 @@
               <div class="fenway-jumbotron">
                 <p class="jumbotron-text"></p>
               </div>
+              <h2>Standings</h2>
+              <table class="table">
+                <tr>
+                  <td>Player</td>
+                  <td>Wins</td>
+                  <td>Losses</td>
+                  <td>Ties</td>
+                </tr>
+                <tr>
+                  <td>X</td>
+                  <td id="x-wins">0</td>
+                  <td id="x-losses">0</td>
+                  <td id="x-ties">0</td>
+                </tr>
+                <tr>
+                  <td>O</td>
+                  <td id="o-wins">0</td>
+                  <td id="o-losses">0</td>
+                  <td id="o-ties">0</td>
+                </tr>
+              </table>
             </div>
-            <div class="board-div col-xs-9">
+            <div class="board-div col-xs-9 text-center">
               <section class="board-background">
                 <div id="0" class="board-square">
                 </div>
