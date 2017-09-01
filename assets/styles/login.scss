@@ -15,7 +15,6 @@ footer {
   border-top: 1px solid $black;
   bottom: 0;
   color: $green-monster-white;
-  font-family: 'Roboto';
   height: 10%;
   position: absolute;
   width: 100%;
@@ -32,9 +31,7 @@ input {
 .login-title {
   border: 10px solid $green-monster-white;
   color: $green-monster-white;
-  font-family: 'Roboto';
   font-size: 100px;
-  font-weight: 800;
   letter-spacing: .1em;
   margin-top: 11%;
   width: 100%;
@@ -43,9 +40,7 @@ input {
 .login-subhead {
   border: 10px solid $green-monster-white;
   color: $green-monster-white;
-  font-family: Roboto;
   font-size: 48px;
-  font-weight: 500;
   letter-spacing: .1em;
   margin-top: 50%;
   padding: 10px;

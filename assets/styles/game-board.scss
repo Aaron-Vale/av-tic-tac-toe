@@ -9,8 +9,15 @@
   height: 100%;
 }
 
+.at-bat {
+  background-color: $td-background;
+  border: 5px solid $green-monster-white;
+  height: 230px;
+  width: 280px;
+}
+
 .board-background {
-  background-color: $green-monster-white;
+  background-color: $td-background;
   height: 3 * $square-height;
   margin: 11% auto;
   width: 3 * $square-height;
@@ -24,7 +31,7 @@
 }
 
 .board-square {
-  border: 1px solid $black;
+  border: 5px solid $green-monster-white;
   float: left;
   height: $square-height;
   width: $square-height;
@@ -34,6 +41,10 @@
   display: inline-block;
   float: right;
   margin-top: 15px;
+}
+
+.btn {
+  border: 3px solid $green-monster-white;
 }
 
 .container {
@@ -55,8 +66,9 @@
 }
 
 .fenway-jumbotron {
-  background-color: $black;
-  height: 280px;
+  background-color: $td-background;
+  border: 5px solid $green-monster-white;
+  height: 100px;
   width: 280px;
 }
 
@@ -70,18 +82,18 @@
 }
 
 h1 {
+  background-color: $td-background;
   border: 5px solid $green-monster-white;
   color: $green-monster-white;
   float: none;
-  font-family: Roboto;
   margin-top: 5px;
   text-align: center;
 }
 
 h2 {
+  background-color: $td-background;
   border: 5px solid $green-monster-white;
   color: $green-monster-white;
-  font-family: Roboto;
   margin-top: 5px;
   text-align: center;
 }
@@ -98,11 +110,40 @@ html {
 }
 
 .jumbotron-text {
-  color: $yellow;
-  font-family: 'Verdana';
+  color: $green-monster-white;
+  font-size: 30px;
+  text-align: center;
+}
+
+.move {
+  color: $green-monster-white;
+  font-size: 6em;
+  margin-top: 10px;
+  text-align: center;
+}
+
+.now-up {
+  color: $green-monster-white;
+  font-size: 15em;
+  height: 100%;
+  margin: 0 auto;
+  position: relative;
+  text-align: center;
+  top: -30px;
 }
 
 .row {
   margin: 0;
   padding: 0;
+}
+
+table {
+  border: 3px solid $green-monster-white;
+}
+
+td {
+  background-color: $td-background;
+  border: 3px solid $green-monster-white;
+  color: $green-monster-white;
+  text-align: center;
 }

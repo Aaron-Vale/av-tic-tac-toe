@@ -10,7 +10,7 @@ const gameReset = function () {
   $('.board-square').removeClass('played').html('') // Reset board status
   $('.board-square').on('click', onClickSquare) // Reset event listeners
   $('#0, #1, #2, #3, #4, #5, #6, #7, #8').each(function () {
-    $(this).css('background-color', '#e4e4e4')
+    $(this).css('background-color', '#424743')
   }) // Reset square background color
   store.boardData = ['', '', '', '', '', '', '', '', ''] // Reset Board Store Data
   store.whoseTurn = 'x'
@@ -47,8 +47,8 @@ const onClickSquare = function () {
       $('#' + winningNumbers[0]).css('background-color', '#00335D')
       $('#' + winningNumbers[1]).css('background-color', '#00335D')
       $('#' + winningNumbers[2]).css('background-color', '#00335D')
-      $('.jumbotron-text').text('').html('<h3>WINNER:<br>' + letterToPlay.toUpperCase() + '!</h3>')
-      $('.jumbotron-text').fadeIn(200).fadeOut(200).fadeIn(200).fadeOut(200).fadeIn(200)
+      $('.jumbotron-text').text('').html('<h3>WINNER: ' + letterToPlay.toUpperCase() + '!</h3>')
+      $('.jumbotron-text').fadeIn(200).fadeOut(200).fadeIn(200).fadeOut(200).fadeIn(200).fadeIn(200).fadeOut(200).fadeIn(200)
       $('#reset-btn').removeClass('hidden')
       isOver = true
 
@@ -68,6 +68,9 @@ const onClickSquare = function () {
       $('#x-losses').html(xLosses)
       $('#o-losses').html(oLosses)
     }
+    // Update Turn Indicator
+    $('.now-up').html('' + store.whoseTurn.toUpperCase())
+
     // Update Game Status to API
 
     gameApi.updateGame(squareId, letterToPlay, isOver)
@@ -118,10 +121,13 @@ const setEventListeners = function () {
   $('.logout-btn').on('click', onLogout)
   $('#signup-form').on('submit', onSignup)
   $('#change-pass').on('submit', onChangePass)
+
   $('#reset-btn').on('click', function () {
     gameReset()
     $('#reset-btn').addClass('hidden')
     const token = userStore.userSession.user.token
+
+    $('.now-up').html('X') // Reset turn indicator
     // Create New Game on API
     gameApi.createGame(token)
       .then(gameUi.createGameSuccess)

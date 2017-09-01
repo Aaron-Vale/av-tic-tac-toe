@@ -36,6 +36,9 @@ const onSignInSuccess = function (data) {
   api.getGames(token)
     .then(getGamesSuccess)
     .catch(getGamesFailure)
+
+  // Update Turn Indicator
+  $('.now-up').html('X')
 }
 
 const onSignInFailure = function () {
@@ -50,10 +53,10 @@ const onLogoutSuccess = function () {
   $('#alert-div').removeClass('hidden')
   $('#alert-div').addClass('alert-success')
   $('#alert-div').removeClass('alert-danger')
+  $('#reset-btn').addClass('hidden')
 }
 
 const onLogoutFailure = function () {
-  console.log('uh oh.')
 }
 
 const onChangePassSuccess = function () {
@@ -65,12 +68,10 @@ const onChangePassFailure = function () {
 }
 
 const createGameSuccess = function (data) {
-  console.log('game created!')
   userStore.gameId = data.game.id
 }
 
 const createGameFailure = function () {
-  console.log('failed')
 }
 
 const getGamesSuccess = function (data) {
@@ -84,19 +85,25 @@ const getGamesSuccess = function (data) {
   let oWins = 0
   let ties = 0
 
-  for (let i = 0; i < winningBoards.length; i++) {
-    const boardString = winningBoards[i].toString().replace(/,/g, '')
+  // const test = winningBoards.map(function (value, index) {
+  //   return logic.isWinOrTie(value)
+  // })
+  // console.log(test)
+
+  winningBoards.forEach(function (value, index) {
+    const boardString = winningBoards[index].toString().replace(/,/g, '')
     const countX = (boardString.match(/x/g) || []).length
     const countO = (boardString.match(/o/g) || []).length
-    if (boardString.length === 9) { // Check if complete board is tie or win
-      const isWinner = logic.checkForWinner(winningBoards[i])
-      isWinner.length > 0 ? ties++ : xWins++
+    if (boardString.length === 9) {
+      const isWinner = logic.isWinOrTie(winningBoards[index]) // Check if complete board is tie or win
+      isWinner ? xWins++ : ties++
     } else if (countX > countO) {
       xWins++
     } else if (countX === countO) {
       oWins++
     }
-  }
+  })
+
   // Update Scoreboard
   $('#x-wins').html(xWins)
   $('#x-losses').html(oWins)
