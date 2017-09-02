@@ -21,7 +21,7 @@ const onClickSquare = function () {
   if (!$(this).hasClass('played')) {
     const squareId = this.id
     const letterToPlay = store.whoseTurn
-    $(this).html('<p class="move">' + letterToPlay + '</p>')
+    $(this).html('<p class="move">' + letterToPlay.toUpperCase() + '</p>')
     store.boardData[squareId] = letterToPlay
     store.whoseTurn = (letterToPlay === 'x' ? 'o' : 'x')
     $(this).addClass('played')
@@ -115,16 +115,27 @@ const onChangePass = function (event) {
   $('#changePassModal').modal('hide')
 }
 
+const onJoinGame = function (event) {
+  event.preventDefault()
+  const data = getFormFields(event.target)
+  gameApi.joinGame(data.id)
+    .then(gameUi.onJoinGameSuccess)
+    .catch(gameUi.onJoinGameFailure)
+  $('#onlinePlayModal').modal('hide')
+}
+
 const setEventListeners = function () {
   $('.board-square').on('click', onClickSquare)
   $('#login-form').on('submit', onLogin)
   $('.logout-btn').on('click', onLogout)
   $('#signup-form').on('submit', onSignup)
   $('#change-pass').on('submit', onChangePass)
+  $('#join-game-form').on('submit', onJoinGame)
 
   $('#reset-btn').on('click', function () {
     gameReset()
     $('#reset-btn').addClass('hidden')
+    $('#online-play-btn').removeClass('hidden')
     const token = userStore.userSession.user.token
 
     $('.now-up').html('X') // Reset turn indicator

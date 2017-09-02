@@ -86,6 +86,18 @@ const updateGame = function (index, value, isOver) {
   })
 }
 
+const joinGame = function (id) {
+  const token = store.userSession.user.token
+  return $.ajax({
+    url: config.apiOrigin + '/games/' + id,
+    method: 'PATCH',
+    headers: {
+      Authorization: 'Token token=' + token
+    },
+    data: {}
+  })
+}
+
 module.exports = {
   signUp,
   login,
@@ -93,5 +105,6 @@ module.exports = {
   changePass,
   createGame,
   getGames,
-  updateGame
+  updateGame,
+  joinGame
 }

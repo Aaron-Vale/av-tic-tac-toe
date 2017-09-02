@@ -4,6 +4,8 @@ const userStore = require('../store')
 const api = require('./api')
 const logic = require('./logic')
 const gameStore = require('./game-store')
+const config = require('../config')
+const watcher = require('../watcher')
 
 const onSignUpSuccess = function () {
   $('#alert-div').html('<p>You have successfully registered!<p>')
@@ -57,6 +59,7 @@ const onLogoutSuccess = function () {
 }
 
 const onLogoutFailure = function () {
+  $('.jumbotron-text').text('Unable to log out. Please try again.')
 }
 
 const onChangePassSuccess = function () {
@@ -69,9 +72,11 @@ const onChangePassFailure = function () {
 
 const createGameSuccess = function (data) {
   userStore.gameId = data.game.id
+  $('.game-id').text('Game ID is ' + userStore.gameId)
 }
 
 const createGameFailure = function () {
+  $('.jumbotron-text').text('Unable to register game with server.')
 }
 
 const getGamesSuccess = function (data) {
@@ -116,15 +121,63 @@ const getGamesSuccess = function (data) {
 }
 
 const getGamesFailure = function () {
-  console.log('fail.')
+  $('.jumbotron-text').text('Unable to retrieve game data.')
 }
 
 const updateGameSuccess = function (data) {
-  // console.log('This is what your game looks like now:' + JSON.stringify(data))
 }
 
-const updateGameFailure = function (error) {
-  console.log(error)
+const updateGameFailure = function () {
+  $('.jumbotron-text').text('Unable to register move with server.')
+}
+
+const onJoinGameSuccess = function (data) {
+  $('.jumbotron-text').text('Successfully joined game!')
+  $('#online-play-btn').addClass('hidden')
+  const newGame = data
+  const newGameId = newGame.game.id
+  $('.game-id').text('Online Game ID: ' + newGameId)
+  const token = userStore.userSession.user.token
+
+  // Set up Game Watcher
+
+let gameWatcher = watcher.resourceWatcher(config.apiOrigin + '/games/' + newGameId + '/watch', {
+    Authorization: 'Token token=' + token
+  })
+
+gameWatcher.on('change', function (data) {
+    console.log(data)
+    if (data.game && data.game.cells) {
+      const diff = changes => {
+        let before = changes[0]
+        let after = changes[1]
+        for (let i = 0; i < after.length; i++) {
+          if (before[i] !== after[i]) {
+            return {
+              index: i,
+              value: after[i]
+            }
+          }
+        }
+
+        return { index: -1, value: '' }
+      }
+
+      let cell = diff(data.game.cells)
+      $('#watch-index').val(cell.index)
+      $('#watch-value').val(cell.value)
+    } else if (data.timeout) { // not an error
+      gameWatcher.close()
+    }
+  })
+
+  gameWatcher.on('error', function (e) {
+    console.error('an error has occurred with the stream', e)
+  })
+}
+
+const onJoinGameFailure = function () {
+  $('.jumbotron-text').text('Unable to join game.')
 }
 
 module.exports = {
@@ -139,5 +192,7 @@ module.exports = {
   updateGameSuccess,
   updateGameFailure,
   createGameSuccess,
-  createGameFailure
+  createGameFailure,
+  onJoinGameSuccess,
+  onJoinGameFailure
 }

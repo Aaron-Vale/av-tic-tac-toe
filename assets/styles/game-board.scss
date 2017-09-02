@@ -77,6 +77,13 @@
   color: $red-sox-blue;
 }
 
+.game-id {
+  color: $green-monster-white;
+  font-size: 8px;
+  position: absolute;
+  text-align: left;
+}
+
 .game-view {
   height: 100%;
 }
@@ -111,7 +118,8 @@ html {
 
 .jumbotron-text {
   color: $green-monster-white;
-  font-size: 30px;
+  font-size: 25px;
+  margin-top: 10px;
   text-align: center;
 }
 
