@@ -4,7 +4,8 @@ const userStore = require('../store')
 const api = require('./api')
 const logic = require('./logic')
 const gameStore = require('./game-store')
-const config = require('../config')
+const online = require('./online')
+// const config = require('../config')
 const watcher = require('../watcher')
 
 const onSignUpSuccess = function () {
@@ -39,6 +40,17 @@ const onSignInSuccess = function (data) {
     .then(getGamesSuccess)
     .catch(getGamesFailure)
 
+  // Set up Game Join Watcher
+
+  // const gameJoinWatcher = watcher.resourceWatcher(config.apiOrigin + '/games/' + userStore.gameId + 'watch', {
+  //   Authorization: 'Token token=' + token
+  // })
+  //
+  // gameJoinWatcher.on('change', function (data) {
+  //   console.log(data)
+  //   $('.jumbotron-text').text(data.user + ' has joined your game!')
+  // })
+
   // Update Turn Indicator
   $('.now-up').html('X')
 }
@@ -72,6 +84,7 @@ const onChangePassFailure = function () {
 
 const createGameSuccess = function (data) {
   userStore.gameId = data.game.id
+  gameStore.isOnlineGame = false
   $('.game-id').text('Game ID is ' + userStore.gameId)
 }
 
@@ -125,6 +138,8 @@ const getGamesFailure = function () {
 }
 
 const updateGameSuccess = function (data) {
+  console.log('okay')
+  console.log(data)
 }
 
 const updateGameFailure = function () {
@@ -132,47 +147,26 @@ const updateGameFailure = function () {
 }
 
 const onJoinGameSuccess = function (data) {
+  console.log(data)
   $('.jumbotron-text').text('Successfully joined game!')
   $('#online-play-btn').addClass('hidden')
   const newGame = data
   const newGameId = newGame.game.id
-  $('.game-id').text('Online Game ID: ' + newGameId)
   const token = userStore.userSession.user.token
+  $('.game-id').text('Online Game ID: ' + newGameId)
+  gameStore.isOnlineGame = true
+  userStore.onlineGameId = newGameId
+  userStore.onlineMove = 'o'
+  setTimeout(function () {
+    $('.jumbotron-text').text('Waiting for Opponent...')
+  }, 2000)
 
-  // Set up Game Watcher
+  // Set up Watcher
+  watcher.setGameWatcher(newGameId, token)
 
-let gameWatcher = watcher.resourceWatcher(config.apiOrigin + '/games/' + newGameId + '/watch', {
-    Authorization: 'Token token=' + token
-  })
-
-gameWatcher.on('change', function (data) {
-    console.log(data)
-    if (data.game && data.game.cells) {
-      const diff = changes => {
-        let before = changes[0]
-        let after = changes[1]
-        for (let i = 0; i < after.length; i++) {
-          if (before[i] !== after[i]) {
-            return {
-              index: i,
-              value: after[i]
-            }
-          }
-        }
-
-        return { index: -1, value: '' }
-      }
-
-      let cell = diff(data.game.cells)
-      $('#watch-index').val(cell.index)
-      $('#watch-value').val(cell.value)
-    } else if (data.timeout) { // not an error
-      gameWatcher.close()
-    }
-  })
-
-  gameWatcher.on('error', function (e) {
-    console.error('an error has occurred with the stream', e)
+  $('.board-square').on('click', function () {
+    const index = this.id
+    online.playMove(index, userStore.onlineMove)
   })
 }
 

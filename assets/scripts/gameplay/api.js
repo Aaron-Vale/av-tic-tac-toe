@@ -2,6 +2,7 @@
 
 const config = require('../config')
 const store = require('../store')
+const gameStore = require('./game-store')
 
 const signUp = function (data) {
   return $.ajax({
@@ -66,7 +67,10 @@ const getGames = function (token) {
 }
 
 const updateGame = function (index, value, isOver) {
-  const gameId = store.gameId
+  let gameId = store.gameId
+  if (gameStore.isOnlineGame) {
+    gameId = store.onlineGameId
+  }
   const token = store.userSession.user.token
   return $.ajax({
     url: config.apiOrigin + '/games/' + gameId,

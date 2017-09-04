@@ -5,6 +5,8 @@ const getFormFields = require('../../../lib/get-form-fields')
 const gameApi = require('./api')
 const gameUi = require('./ui')
 const userStore = require('../store')
+const watcher = require('../watcher')
+const online = require('./online')
 
 const gameReset = function () {
   $('.board-square').removeClass('played').html('') // Reset board status
@@ -18,64 +20,66 @@ const gameReset = function () {
 }
 
 const onClickSquare = function () {
-  if (!$(this).hasClass('played')) {
-    const squareId = this.id
-    const letterToPlay = store.whoseTurn
-    $(this).html('<p class="move">' + letterToPlay.toUpperCase() + '</p>')
-    store.boardData[squareId] = letterToPlay
-    store.whoseTurn = (letterToPlay === 'x' ? 'o' : 'x')
-    $(this).addClass('played')
-    let isOver = false
-    const winningNumbers = logic.checkForWinner(store.boardData)
-    if (winningNumbers === 0) { // If there is a Tie
-      $('.board-square').off() // No more moves allowed
-      $('.jumbotron-text').text("It's a tie...")
-      $('.jumbotron-text').fadeIn(200).fadeOut(200).fadeIn(200).fadeOut(200).fadeIn(200)
-      $('#reset-btn').removeClass('hidden')
-      isOver = true
+  if (!store.isOnlineGame) {
+    if (!$(this).hasClass('played')) {
+      const squareId = this.id
+      const letterToPlay = store.whoseTurn
+      $(this).html('<p class="move">' + letterToPlay.toUpperCase() + '</p>')
+      store.boardData[squareId] = letterToPlay
+      store.whoseTurn = (letterToPlay === 'x' ? 'o' : 'x')
+      $(this).addClass('played')
+      let isOver = false
+      const winningNumbers = logic.checkForWinner(store.boardData)
+      if (winningNumbers === 0) { // If there is a Tie
+        $('.board-square').off() // No more moves allowed
+        $('.jumbotron-text').text("It's a tie...")
+        $('.jumbotron-text').fadeIn(200).fadeOut(200).fadeIn(200).fadeOut(200).fadeIn(200)
+        $('#reset-btn').removeClass('hidden')
+        isOver = true
 
-      // Update Scoreboard
-      let xTies = parseInt($('#x-ties').html())
-      let oTies = parseInt($('#o-ties').html())
-      xTies++
-      oTies++
-      $('#x-ties').html(xTies)
-      $('#o-ties').html(oTies)
+        // Update Scoreboard
+        let xTies = parseInt($('#x-ties').html())
+        let oTies = parseInt($('#o-ties').html())
+        xTies++
+        oTies++
+        $('#x-ties').html(xTies)
+        $('#o-ties').html(oTies)
+      }
+      if (winningNumbers.length === 3) { // If a Winner is Detected
+        $('.board-square').off() // No more moves allowed
+        $('#' + winningNumbers[0]).css('background-color', '#00335D')
+        $('#' + winningNumbers[1]).css('background-color', '#00335D')
+        $('#' + winningNumbers[2]).css('background-color', '#00335D')
+        $('.jumbotron-text').text('').html('<h3>WINNER: ' + letterToPlay.toUpperCase() + '!</h3>')
+        $('.jumbotron-text').fadeIn(200).fadeOut(200).fadeIn(200).fadeOut(200).fadeIn(200).fadeIn(200).fadeOut(200).fadeIn(200)
+        $('#reset-btn').removeClass('hidden')
+        isOver = true
+
+        // Update Scoreboard
+        let xWins = parseInt($('#x-wins').html())
+        let oWins = parseInt($('#o-wins').html())
+        let xLosses = parseInt($('#x-losses').html())
+        let oLosses = parseInt($('#o-losses').html())
+        const winner = letterToPlay
+        const loser = winner === 'x' ? 'o' : 'x'
+
+        winner === 'x' ? xWins++ : oWins++
+        loser === 'x' ? xLosses++ : oLosses++
+
+        $('#x-wins').html(xWins)
+        $('#o-wins').html(oWins)
+        $('#x-losses').html(xLosses)
+        $('#o-losses').html(oLosses)
+      }
+      // Update Turn Indicator
+      $('.now-up').html('' + store.whoseTurn.toUpperCase())
+
+      // Update Game Status to API
+
+      gameApi.updateGame(squareId, letterToPlay, isOver)
+        .then(gameUi.updateGameSuccess)
+        .catch(gameUi.updateGameFailure)
     }
-    if (winningNumbers.length === 3) { // If a Winner is Detected
-      $('.board-square').off() // No more moves allowed
-      $('#' + winningNumbers[0]).css('background-color', '#00335D')
-      $('#' + winningNumbers[1]).css('background-color', '#00335D')
-      $('#' + winningNumbers[2]).css('background-color', '#00335D')
-      $('.jumbotron-text').text('').html('<h3>WINNER: ' + letterToPlay.toUpperCase() + '!</h3>')
-      $('.jumbotron-text').fadeIn(200).fadeOut(200).fadeIn(200).fadeOut(200).fadeIn(200).fadeIn(200).fadeOut(200).fadeIn(200)
-      $('#reset-btn').removeClass('hidden')
-      isOver = true
-
-      // Update Scoreboard
-      let xWins = parseInt($('#x-wins').html())
-      let oWins = parseInt($('#o-wins').html())
-      let xLosses = parseInt($('#x-losses').html())
-      let oLosses = parseInt($('#o-losses').html())
-      const winner = letterToPlay
-      const loser = winner === 'x' ? 'o' : 'x'
-
-      winner === 'x' ? xWins++ : oWins++
-      loser === 'x' ? xLosses++ : oLosses++
-
-      $('#x-wins').html(xWins)
-      $('#o-wins').html(oWins)
-      $('#x-losses').html(xLosses)
-      $('#o-losses').html(oLosses)
-    }
-    // Update Turn Indicator
-    $('.now-up').html('' + store.whoseTurn.toUpperCase())
-
-    // Update Game Status to API
-
-    gameApi.updateGame(squareId, letterToPlay, isOver)
-      .then(gameUi.updateGameSuccess)
-      .catch(gameUi.updateGameFailure)
   }
 }
 
@@ -124,6 +128,23 @@ const onJoinGame = function (event) {
   $('#onlinePlayModal').modal('hide')
 }
 
+const onHostGame = function (event) {
+  event.preventDefault()
+  store.isOnlineGame = true
+  userStore.onlineMove = 'x'
+  $('#onlinePlayModal').modal('hide')
+  $('.jumbotron-text').text('Your Turn!')
+  // Set up Watcher
+  const id = userStore.gameId
+  userStore.onlineGameId = id
+  const token = userStore.userSession.user.token
+  watcher.setGameWatcher(id, token)
+  $('.board-square').on('click', function () {
+    const index = this.id
+    online.playMove(index, userStore.onlineMove)
+  })
+}
+
 const setEventListeners = function () {
   $('.board-square').on('click', onClickSquare)
   $('#login-form').on('submit', onLogin)
@@ -131,7 +152,7 @@ const setEventListeners = function () {
   $('#signup-form').on('submit', onSignup)
   $('#change-pass').on('submit', onChangePass)
   $('#join-game-form').on('submit', onJoinGame)
-
+  $('#host-game-btn').on('click', onHostGame)
   $('#reset-btn').on('click', function () {
     gameReset()
     $('#reset-btn').addClass('hidden')
