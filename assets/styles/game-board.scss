@@ -53,11 +53,44 @@
   border: 3px solid $green-monster-white;
 }
 
+
+
+.btn-left {
+  background-color: $red-sox-blue;
+  color: $green-monster-white;
+
+  &:active {
+    color: $green-monster-white;
+  }
+
+  &:focus {
+    color: $green-monster-white;
+  }
+
+  &:hover {
+    color: $green-monster-white;
+  }
+}
+
+
+
 .chat-area {
   background-color: $black;
-  height: 400px;
+  height: 375px;
   overflow-x: auto;
   overflow-y: scroll;
+  width: 100%;
+}
+
+.chat-btn {
+  margin: 5px;
+}
+
+.chat-div {
+  background-color: $green-monster;
+  float: left;
+  height: 100%;
+  text-align: center;
   width: 100%;
 }
 
@@ -125,6 +158,10 @@ h2 {
   text-align: center;
 }
 
+.h2-o {
+  margin-top: 50px;
+}
+
 .header {
   background-color: $green-monster;
   border-bottom: 5px solid $green-monster-white;
@@ -170,16 +207,8 @@ img {
   padding: 0;
 }
 
-.chat-btn {
-  margin: 5px;
-}
-
-.chat-div {
-  background-color: $green-monster;
-  float: left;
-  height: 100%;
-  text-align: center;
-  width: 100%;
+.save-settings-btn {
+  margin-top: 50px;
 }
 
 table {

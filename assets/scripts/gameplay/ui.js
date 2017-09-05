@@ -5,7 +5,6 @@ const api = require('./api')
 const logic = require('./logic')
 const gameStore = require('./game-store')
 const online = require('./online')
-// const config = require('../config')
 const watcher = require('../watcher')
 
 const onSignUpSuccess = function () {
@@ -59,6 +58,8 @@ const onLogoutSuccess = function () {
   $('#alert-div').addClass('alert-success')
   $('#alert-div').removeClass('alert-danger')
   $('#reset-btn').addClass('hidden')
+  $('#settings-btn').removeClass('hidden')
+  $('#online-play-btn').removeClass('hidden')
 }
 
 const onLogoutFailure = function () {
@@ -133,8 +134,10 @@ const updateGameFailure = function () {
 const onJoinGameSuccess = function (data) {
   $('.jumbotron-text').text('Successfully joined game!')
   $('#online-play-btn').addClass('hidden')
+  $('#settings-btn').addClass('hidden')
+  $('.settings-div').addClass('hidden')
+  $('.game-info').removeClass('hidden')
   const newGame = data
-  console.log(newGame)
   const newGameId = newGame.game.id
   const token = userStore.userSession.user.token
   $('.game-id').text('Online Game ID: ' + newGameId)
@@ -151,7 +154,7 @@ const onJoinGameSuccess = function (data) {
 
   $('.board-square').on('click', function () {
     const index = this.id
-    if ($('.jumbotron-text').text() === 'Your Turn!') {
+    if ($('.jumbotron-text').text() === 'Your Turn!') { // Only allow move in online game when it is player's turn
       online.playMove(index, userStore.onlineMove)
     }
   })

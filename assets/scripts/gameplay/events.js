@@ -12,8 +12,8 @@ const gameReset = function () {
   $('.board-square').removeClass('played').html('') // Reset board status
   $('.board-square').on('click', onClickSquare) // Reset event listeners
   $('#0, #1, #2, #3, #4, #5, #6, #7, #8').each(function () {
-    $(this).css('background-color', '#424743')
-  }) // Reset square background color
+    $(this).css('background-color', '#424743') // Reset square background color
+  })
   store.boardData = ['', '', '', '', '', '', '', '', ''] // Reset Board Store Data
   store.whoseTurn = 'x'
   store.winningNumbers = []
@@ -25,15 +25,15 @@ const onClickSquare = function () {
       $('#online-play-btn').addClass('hidden') // Disable online play once game has started
       const squareId = this.id
       const letterToPlay = store.whoseTurn
-      console.log(userStore.xToken)
-      console.log(userStore.oToken)
-      letterToPlay === 'x' ? $(this).html(userStore.xToken) : $(this).html(userStore.oToken)
-      // $(this).html('<p class="move">' + letterToPlay.toUpperCase() + '</p>')
-      store.boardData[squareId] = letterToPlay
-      store.whoseTurn = (letterToPlay === 'x' ? 'o' : 'x')
-      $(this).addClass('played')
+      letterToPlay === 'x' ? $(this).html(userStore.xToken) : $(this).html(userStore.oToken) // Play the token selected in the settings menu
+      store.boardData[squareId] = letterToPlay // Save the move in a local array
+      store.whoseTurn = (letterToPlay === 'x' ? 'o' : 'x') // Switch turns
+      $(this).addClass('played') // Prevents square from being played again
+
+      // Begin to Check for Winner
+
       let isOver = false
-      const winningNumbers = logic.checkForWinner(store.boardData)
+      const winningNumbers = logic.checkForWinner(store.boardData) // Check the current board for winner
       if (winningNumbers === 0) { // If there is a Tie
         $('.board-square').off() // No more moves allowed
         $('.jumbotron-text').text("It's a tie...")
@@ -57,6 +57,9 @@ const onClickSquare = function () {
         $('#' + winningNumbers[2]).css('background-color', '#00335D')
         $('.jumbotron-text').text('').html('<h3>WINNER: ' + letterToPlay.toUpperCase() + '!</h3>')
         $('.jumbotron-text').fadeIn(200).fadeOut(200).fadeIn(200).fadeOut(200).fadeIn(200).fadeIn(200).fadeOut(200).fadeIn(200)
+        if ((($('#o-token').text()) === 'Evil Empire')) { // Easter egg ;)
+          $('.jumbotron-text').text('Ugh.')
+        }
         $('#reset-btn').removeClass('hidden')
         $('#online-play-btn').addClass('hidden')
         isOver = true
@@ -98,12 +101,12 @@ const onLogin = function (event) {
 }
 
 const onLogout = function () {
-  gameReset()
+  gameReset() // Resets game board and game variables
   const data = userStore.userSession
   gameApi.logout(data)
     .then(gameUi.onLogoutSuccess)
     .catch(gameUi.onLogoutFailure)
-  userStore.userSession = null
+  userStore.userSession = null // Clear current user session data
   $('.game-view').addClass('hidden')
   $('.login-view').removeClass('hidden')
 }
@@ -141,6 +144,10 @@ const onHostGame = function (event) {
   $('#onlinePlayModal').modal('hide')
   $('.jumbotron-text').text('Waiting for Opponent...')
   $('.now-up').text('X')
+  $('#settings-btn').addClass('hidden')
+  $('#online-play-btn').addClass('hidden')
+  $('.settings-div').addClass('hidden')
+  $('.game-info').removeClass('hidden')
   // Set up Watcher
   const id = userStore.gameId
   userStore.onlineGameId = id
@@ -148,7 +155,7 @@ const onHostGame = function (event) {
   watcher.setGameWatcher(id, token)
   $('.board-square').on('click', function () {
     const index = this.id
-    if ($('.jumbotron-text').text() === 'Your Turn!') {
+    if ($('.jumbotron-text').text() === 'Your Turn!') { // Only allow move if player turn
       online.playMove(index, userStore.onlineMove)
     }
   })
@@ -177,11 +184,6 @@ const onOpenSettings = function () {
   $('.chat-div').addClass('hidden')
 }
 
-const onCloseSettings = function () {
-  $('.settings-div').addClass('hidden')
-  $('.game-info').removeClass('hidden')
-}
-
 const onSaveSettings = function () {
   if (($('#x-token').text()) === 'X (Default)') {
     userStore.xToken = '<p class="move">X</p>'
@@ -196,7 +198,15 @@ const onSaveSettings = function () {
     userStore.oToken = '<img src="https://farm5.staticflickr.com/4368/36238837593_710b10816a_z.jpg">'
   } else if (($('#o-token').text()) === 'Hanging Sox Logo') {
     userStore.oToken = '<img src="https://farm5.staticflickr.com/4344/36858417126_2f50e54702_z.jpg">'
+  } else if (($('#o-token').text()) === 'Baseball') {
+    userStore.oToken = '<img src="https://farm5.staticflickr.com/4415/36879882432_593a76f1f4_z.jpg">'
+  } else if (($('#o-token').text()) === 'Evil Empire') {
+    userStore.oToken = '<img src="https://farm5.staticflickr.com/4366/36879935272_9d2a50c5e1_z.jpg">'
   }
+
+  $('.settings-div').addClass('hidden')
+  $('.game-info').removeClass('hidden')
+  $('.jumbotron-text').text('Settings Updated.')
 }
 
 const setEventListeners = function () {
@@ -211,7 +221,6 @@ const setEventListeners = function () {
   $('#close-chat-btn').on('click', onCloseChat)
   $('#chat-form').on('submit', onSendChat)
   $('#settings-btn').on('click', onOpenSettings)
-  $('#close-settings-btn').on('click', onCloseSettings)
   $('.save-settings-btn').on('click', onSaveSettings)
   $('.x-item').on('click', function () {
     const value = $(this).text()
@@ -222,9 +231,10 @@ const setEventListeners = function () {
     $('#o-token').text(value)
   })
   $('#reset-btn').on('click', function () {
-    gameReset()
+    gameReset() // Reset Board and Game Variables
     $('#reset-btn').addClass('hidden')
     $('#online-play-btn').removeClass('hidden')
+    $('#settings-btn').removeClass('hidden')
     const token = userStore.userSession.user.token
 
     $('.now-up').html('X') // Reset turn indicator

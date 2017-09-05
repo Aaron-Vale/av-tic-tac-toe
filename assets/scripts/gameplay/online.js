@@ -7,12 +7,14 @@ const gameUi = require('./ui')
 
 const playMove = function (index, value) {
   if (!$('#' + index).hasClass('played')) {
+    // Flip the display message, which controls the turn in an online game
     $('.jumbotron-text').text() === ('Waiting for Opponent...') ? $('.jumbotron-text').text('Your Turn!') : $('.jumbotron-text').text('Waiting for Opponent...')
-    $('.now-up').text() === 'X' ? $('.now-up').text('O') : $('.now-up').text('X')
-    $('#' + index).html('<p class="move">' + value.toUpperCase() + '</p>')
-    gameStore.boardData[index] = value
-    gameStore.whoseTurn = (value === 'x' ? 'o' : 'x')
-    $('#' + index).addClass('played')
+    $('.now-up').text() === 'X' ? $('.now-up').text('O') : $('.now-up').text('X') // Switch turn indicator
+    $('#' + index).html('<p class="move">' + value.toUpperCase() + '</p>') // Play move
+    gameStore.boardData[index] = value // Update local board tracker
+    gameStore.whoseTurn = (value === 'x' ? 'o' : 'x') // Update local turn tracker
+    $('#' + index).addClass('played') // Prevent duplicate moves
+    // Begin winner check
     let isOver = false
     const winningNumbers = logic.checkForWinner(gameStore.boardData)
     if (winningNumbers === 0) { // If there is a Tie

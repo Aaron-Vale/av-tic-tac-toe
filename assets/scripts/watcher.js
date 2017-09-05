@@ -40,7 +40,6 @@ const resourceWatcher = function (url, conf) {
         es.onerror = makeHandler(handler, close)
         break
       default:
-        console.error('Unknown event type:' + event)
         break
     }
   }
@@ -57,7 +56,6 @@ const setGameWatcher = function (id, token) {
   })
 
   gameWatcher.on('change', function (data) {
-    console.log(data)
     if (data.game && data.game.cells) {
       const diff = changes => {
         const before = changes[0]
@@ -82,7 +80,6 @@ const setGameWatcher = function (id, token) {
   })
 
   gameWatcher.on('error', function (e) {
-    console.error('an error has occurred with the stream', e)
   })
 }
 
