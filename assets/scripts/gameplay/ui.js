@@ -138,8 +138,6 @@ const getGamesFailure = function () {
 }
 
 const updateGameSuccess = function (data) {
-  console.log('okay')
-  console.log(data)
 }
 
 const updateGameFailure = function () {
@@ -147,18 +145,19 @@ const updateGameFailure = function () {
 }
 
 const onJoinGameSuccess = function (data) {
-  console.log(data)
   $('.jumbotron-text').text('Successfully joined game!')
   $('#online-play-btn').addClass('hidden')
   const newGame = data
+  console.log(newGame)
   const newGameId = newGame.game.id
   const token = userStore.userSession.user.token
   $('.game-id').text('Online Game ID: ' + newGameId)
   gameStore.isOnlineGame = true
   userStore.onlineGameId = newGameId
-  userStore.onlineMove = 'o'
+  userStore.onlineMove = 'x'
   setTimeout(function () {
-    $('.jumbotron-text').text('Waiting for Opponent...')
+    $('.jumbotron-text').text('Your Turn!')
+    $('.now-up').text('X')
   }, 2000)
 
   // Set up Watcher
@@ -166,7 +165,9 @@ const onJoinGameSuccess = function (data) {
 
   $('.board-square').on('click', function () {
     const index = this.id
-    online.playMove(index, userStore.onlineMove)
+    if ($('.jumbotron-text').text() === 'Your Turn!') {
+      online.playMove(index, userStore.onlineMove)
+    }
   })
 }
 

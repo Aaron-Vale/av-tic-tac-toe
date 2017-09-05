@@ -7,7 +7,8 @@ const gameUi = require('./ui')
 
 const playMove = function (index, value) {
   if (!$('#' + index).hasClass('played')) {
-    // $('.jumbotron-text').text('Waiting for opponent...')
+    $('.jumbotron-text').text() === ('Waiting for Opponent...') ? $('.jumbotron-text').text('Your Turn!') : $('.jumbotron-text').text('Waiting for Opponent...')
+    $('.now-up').text() === 'X' ? $('.now-up').text('O') : $('.now-up').text('X')
     $('#' + index).html('<p class="move">' + value.toUpperCase() + '</p>')
     gameStore.boardData[index] = value
     gameStore.whoseTurn = (value === 'x' ? 'o' : 'x')
@@ -19,6 +20,7 @@ const playMove = function (index, value) {
       $('.jumbotron-text').text("It's a tie...")
       $('.jumbotron-text').fadeIn(200).fadeOut(200).fadeIn(200).fadeOut(200).fadeIn(200)
       $('#reset-btn').removeClass('hidden')
+      $('#online-play-btn').addClass('hidden')
       isOver = true
     }
     if (winningNumbers.length === 3) { // If a Winner is Detected
@@ -29,6 +31,7 @@ const playMove = function (index, value) {
       $('.jumbotron-text').text('').html('<h3>WINNER: ' + value.toUpperCase() + '!</h3>')
       $('.jumbotron-text').fadeIn(200).fadeOut(200).fadeIn(200).fadeOut(200).fadeIn(200).fadeIn(200).fadeOut(200).fadeIn(200)
       $('#reset-btn').removeClass('hidden')
+      $('#online-play-btn').addClass('hidden')
       isOver = true
     }
     // Update Turn Indicator

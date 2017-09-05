@@ -81,6 +81,9 @@
         <div class="container">
           <div class="row header">
             <div class="col-xs-4">
+              <div class="buttons-left">
+                <button id="chat-btn" class="btn btn-info">Chat</button>
+              </div>
             </div>
             <div class="col-xs-4">
               <h1>Tic Tac Toe</h1>
@@ -149,36 +152,48 @@
           </div>
           <div class="row content">
             <div class="aside col-xs-3">
-              <h2>Game Info</h2>
-              <div class="fenway-jumbotron slider">
-                <p class="game-id"></p>
-                <p class="jumbotron-text"></p>
+              <div class="chat-div hidden text-center">
+                <h2>Game Chat</h2>
+                <textarea rows="4" cols="50" name="comment" form="chat-form" placeholder="Your Message"></textarea>
+                <form id="chat-form">
+                  <button id="send-chat" type="submit" class="btn btn-success chat-btn">Send Message</button>
+                </form>
+                <div class="chat-area">
+                </div>
+                <button id="close-chat-btn" class="btn btn-default chat-btn">Close Chat</button>
               </div>
-              <h2>At Bat</h2>
-              <div class="at-bat">
-                <p class="now-up"></p>
+              <div class="game-info">
+                <h2>Game Info</h2>
+                <div class="fenway-jumbotron slider">
+                  <p class="game-id"></p>
+                  <p class="jumbotron-text"></p>
+                </div>
+                <h2>At Bat</h2>
+                <div class="at-bat">
+                  <p class="now-up"></p>
+                </div>
+                <h2>Standings</h2>
+                <table class="table">
+                  <tr>
+                    <td>Player</td>
+                    <td>Wins</td>
+                    <td>Losses</td>
+                    <td>Ties</td>
+                  </tr>
+                  <tr>
+                    <td>X</td>
+                    <td id="x-wins">0</td>
+                    <td id="x-losses">0</td>
+                    <td id="x-ties">0</td>
+                  </tr>
+                  <tr>
+                    <td>O</td>
+                    <td id="o-wins">0</td>
+                    <td id="o-losses">0</td>
+                    <td id="o-ties">0</td>
+                  </tr>
+                </table>
               </div>
-              <h2>Standings</h2>
-              <table class="table">
-                <tr>
-                  <td>Player</td>
-                  <td>Wins</td>
-                  <td>Losses</td>
-                  <td>Ties</td>
-                </tr>
-                <tr>
-                  <td>X</td>
-                  <td id="x-wins">0</td>
-                  <td id="x-losses">0</td>
-                  <td id="x-ties">0</td>
-                </tr>
-                <tr>
-                  <td>O</td>
-                  <td id="o-wins">0</td>
-                  <td id="o-losses">0</td>
-                  <td id="o-ties">0</td>
-                </tr>
-              </table>
             </div>
             <div class="board-div col-xs-9 text-center">
               <section class="board-background">

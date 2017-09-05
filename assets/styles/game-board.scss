@@ -43,8 +43,28 @@
   margin-top: 15px;
 }
 
+.buttons-left {
+  display: inline-block;
+  float: left;
+  margin-top: 15px;
+}
+
 .btn {
   border: 3px solid $green-monster-white;
+}
+
+.chat-area {
+  background-color: $black;
+  height: 400px;
+  overflow-x: auto;
+  overflow-y: scroll;
+  width: 100%;
+}
+
+.chat-text {
+  color: $red-sox-red;
+  font-size: 10px;
+  text-align: left;
 }
 
 .container {
@@ -145,6 +165,18 @@ html {
   padding: 0;
 }
 
+.chat-btn {
+  margin: 5px;
+}
+
+.chat-div {
+  background-color: $green-monster;
+  float: left;
+  height: 100%;
+  text-align: center;
+  width: 100%;
+}
+
 table {
   border: 3px solid $green-monster-white;
 }
@@ -154,4 +186,9 @@ td {
   border: 3px solid $green-monster-white;
   color: $green-monster-white;
   text-align: center;
+}
+
+textarea {
+  resize: none;
+  width: 100%;
 }

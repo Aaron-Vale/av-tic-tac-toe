@@ -22,6 +22,7 @@ const gameReset = function () {
 const onClickSquare = function () {
   if (!store.isOnlineGame) {
     if (!$(this).hasClass('played')) {
+      $('#online-play-btn').addClass('hidden') // Disable online play once game has started
       const squareId = this.id
       const letterToPlay = store.whoseTurn
       $(this).html('<p class="move">' + letterToPlay.toUpperCase() + '</p>')
@@ -35,6 +36,7 @@ const onClickSquare = function () {
         $('.jumbotron-text').text("It's a tie...")
         $('.jumbotron-text').fadeIn(200).fadeOut(200).fadeIn(200).fadeOut(200).fadeIn(200)
         $('#reset-btn').removeClass('hidden')
+        $('#online-play-btn').addClass('hidden')
         isOver = true
 
         // Update Scoreboard
@@ -53,6 +55,7 @@ const onClickSquare = function () {
         $('.jumbotron-text').text('').html('<h3>WINNER: ' + letterToPlay.toUpperCase() + '!</h3>')
         $('.jumbotron-text').fadeIn(200).fadeOut(200).fadeIn(200).fadeOut(200).fadeIn(200).fadeIn(200).fadeOut(200).fadeIn(200)
         $('#reset-btn').removeClass('hidden')
+        $('#online-play-btn').addClass('hidden')
         isOver = true
 
         // Update Scoreboard
@@ -131,9 +134,10 @@ const onJoinGame = function (event) {
 const onHostGame = function (event) {
   event.preventDefault()
   store.isOnlineGame = true
-  userStore.onlineMove = 'x'
+  userStore.onlineMove = 'o'
   $('#onlinePlayModal').modal('hide')
-  $('.jumbotron-text').text('Your Turn!')
+  $('.jumbotron-text').text('Waiting for Opponent...')
+  $('.now-up').text('X')
   // Set up Watcher
   const id = userStore.gameId
   userStore.onlineGameId = id
@@ -141,8 +145,26 @@ const onHostGame = function (event) {
   watcher.setGameWatcher(id, token)
   $('.board-square').on('click', function () {
     const index = this.id
-    online.playMove(index, userStore.onlineMove)
+    if ($('.jumbotron-text').text() === 'Your Turn!') {
+      online.playMove(index, userStore.onlineMove)
+    }
   })
+}
+
+const onOpenChat = function () {
+  $('.chat-div').removeClass('hidden')
+  $('.game-info').addClass('hidden')
+}
+
+const onCloseChat = function () {
+  $('.chat-div').addClass('hidden')
+  $('.game-info').removeClass('hidden')
+}
+
+const onSendChat = function (event) {
+  event.preventDefault()
+  const data = getFormFields(event.target)
+  $('.chat-area').append('<p class="chat-text"><strong>' + userStore.userSession.user.email + ':</strong> ' + data.comment + '</p>')
 }
 
 const setEventListeners = function () {
@@ -153,6 +175,9 @@ const setEventListeners = function () {
   $('#change-pass').on('submit', onChangePass)
   $('#join-game-form').on('submit', onJoinGame)
   $('#host-game-btn').on('click', onHostGame)
+  $('#chat-btn').on('click', onOpenChat)
+  $('#close-chat-btn').on('click', onCloseChat)
+  $('#chat-form').on('submit', onSendChat)
   $('#reset-btn').on('click', function () {
     gameReset()
     $('#reset-btn').addClass('hidden')

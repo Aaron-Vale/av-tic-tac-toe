@@ -2,8 +2,6 @@
 
 const config = require('./config')
 const online = require('./gameplay/online')
-const store = require('./store')
-const userStore = require('./gameplay/game-store')
 
 const resourceWatcher = function (url, conf) {
   const token = function (conf) {

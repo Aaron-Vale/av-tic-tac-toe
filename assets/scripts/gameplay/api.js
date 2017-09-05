@@ -79,12 +79,12 @@ const updateGame = function (index, value, isOver) {
       Authorization: 'Token token=' + token
     },
     data: {
-      "game": {
-        "cell": {
-          "index": index,
-          "value": value
+      'game': {
+        'cell': {
+          'index': index,
+          'value': value
         },
-        "over": isOver
+        'over': isOver
       }
     }
   })
