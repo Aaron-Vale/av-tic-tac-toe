@@ -70,7 +70,7 @@
           </div>
         </div>
         <footer>
-          <h3 class="footer-text">Made With &hearts; by Aaron Vale</h3>
+          <h3 class="footer-text">Made With &hearts; by Aaron Vale   |   Go sOX!</h3>
         </footer>
       </div>
       <!--End Login-View  -->
@@ -83,6 +83,7 @@
             <div class="col-xs-4">
               <div class="buttons-left">
                 <button id="chat-btn" class="btn btn-info">Chat</button>
+                <button id="settings-btn" class="btn btn-info">Settings</button>
               </div>
             </div>
             <div class="col-xs-4">
@@ -152,6 +153,33 @@
           </div>
           <div class="row content">
             <div class="aside col-xs-3">
+              <div class="settings-div hidden text-center">
+                <h2>Game Settings</h2>
+                  <h2>X Token Display</h2>
+                  <div class="dropdown">
+                    <button class="btn btn-secondary dropdown-toggle" type="button" id="x-token" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      X (Default)
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="x-token">
+                      <a class="dropdown-item x-item">X (Default)</a>
+                      <a class="dropdown-item x-item">Hanging Sox Logo</a>
+                      <a class="dropdown-item x-item">Crossed Bats</a>
+                    </div>
+                  </div>
+                  <h2>O Token Display</h2>
+                  <div class="dropdown">
+                    <button class="btn btn-secondary dropdown-toggle" type="button" id="o-token" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      O (Default)
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="o-token">
+                      <a class="dropdown-item o-item">O (Default)</a>
+                      <a class="dropdown-item o-item">Hanging Sox Logo</a>
+                      <a class="dropdown-item o-item">Red Sox Logo</a>
+                    </div>
+                  </div>
+                <button type="submit" class="btn btn-success save-settings-btn">Save Settings</button>
+                <button id="close-settings-btn" class="btn btn-default settings-btn">Close Settings</button>
+              </div>
               <div class="chat-div hidden text-center">
                 <h2>Game Chat</h2>
                 <textarea rows="4" cols="50" name="comment" form="chat-form" placeholder="Your Message"></textarea>

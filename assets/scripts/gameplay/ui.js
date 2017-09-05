@@ -29,6 +29,9 @@ const onSignInSuccess = function (data) {
   $('.jumbotron-text').text('Welcome ' + userStore.userSession.user.email + '!')
   const token = userStore.userSession.user.token
 
+  userStore.xToken = '<p class="move">X</p>'
+  userStore.oToken = '<p class="move">O</p>'
+
   // Create New Game, Send to API
   api.createGame(token)
     .then(createGameSuccess)
@@ -40,18 +43,6 @@ const onSignInSuccess = function (data) {
     .then(getGamesSuccess)
     .catch(getGamesFailure)
 
-  // Set up Game Join Watcher
-
-  // const gameJoinWatcher = watcher.resourceWatcher(config.apiOrigin + '/games/' + userStore.gameId + 'watch', {
-  //   Authorization: 'Token token=' + token
-  // })
-  //
-  // gameJoinWatcher.on('change', function (data) {
-  //   console.log(data)
-  //   $('.jumbotron-text').text(data.user + ' has joined your game!')
-  // })
-
-  // Update Turn Indicator
   $('.now-up').html('X')
 }
 
@@ -102,11 +93,6 @@ const getGamesSuccess = function (data) {
   let xWins = 0
   let oWins = 0
   let ties = 0
-
-  // const test = winningBoards.map(function (value, index) {
-  //   return logic.isWinOrTie(value)
-  // })
-  // console.log(test)
 
   winningBoards.forEach(function (value, index) {
     const boardString = winningBoards[index].toString().replace(/,/g, '')

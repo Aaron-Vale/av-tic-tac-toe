@@ -25,7 +25,10 @@ const onClickSquare = function () {
       $('#online-play-btn').addClass('hidden') // Disable online play once game has started
       const squareId = this.id
       const letterToPlay = store.whoseTurn
-      $(this).html('<p class="move">' + letterToPlay.toUpperCase() + '</p>')
+      console.log(userStore.xToken)
+      console.log(userStore.oToken)
+      letterToPlay === 'x' ? $(this).html(userStore.xToken) : $(this).html(userStore.oToken)
+      // $(this).html('<p class="move">' + letterToPlay.toUpperCase() + '</p>')
       store.boardData[squareId] = letterToPlay
       store.whoseTurn = (letterToPlay === 'x' ? 'o' : 'x')
       $(this).addClass('played')
@@ -154,6 +157,7 @@ const onHostGame = function (event) {
 const onOpenChat = function () {
   $('.chat-div').removeClass('hidden')
   $('.game-info').addClass('hidden')
+  $('.settings-div').addClass('hidden')
 }
 
 const onCloseChat = function () {
@@ -167,6 +171,34 @@ const onSendChat = function (event) {
   $('.chat-area').append('<p class="chat-text"><strong>' + userStore.userSession.user.email + ':</strong> ' + data.comment + '</p>')
 }
 
+const onOpenSettings = function () {
+  $('.settings-div').removeClass('hidden')
+  $('.game-info').addClass('hidden')
+  $('.chat-div').addClass('hidden')
+}
+
+const onCloseSettings = function () {
+  $('.settings-div').addClass('hidden')
+  $('.game-info').removeClass('hidden')
+}
+
+const onSaveSettings = function () {
+  if (($('#x-token').text()) === 'X (Default)') {
+    userStore.xToken = '<p class="move">X</p>'
+  } else if (($('#x-token').text()) === 'Crossed Bats') {
+    userStore.xToken = '<img src="https://farm5.staticflickr.com/4441/36649849830_7c243fbb17_z.jpg">'
+  } else if (($('#x-token').text()) === 'Hanging Sox Logo') {
+    userStore.xToken = '<img src="https://farm5.staticflickr.com/4344/36858417126_2f50e54702_z.jpg">'
+  }
+  if (($('#o-token').text()) === 'O (Default)') {
+    userStore.oToken = '<p class="move">O</p>'
+  } else if (($('#o-token').text()) === 'Red Sox Logo') {
+    userStore.oToken = '<img src="https://farm5.staticflickr.com/4368/36238837593_710b10816a_z.jpg">'
+  } else if (($('#o-token').text()) === 'Hanging Sox Logo') {
+    userStore.oToken = '<img src="https://farm5.staticflickr.com/4344/36858417126_2f50e54702_z.jpg">'
+  }
+}
+
 const setEventListeners = function () {
   $('.board-square').on('click', onClickSquare)
   $('#login-form').on('submit', onLogin)
@@ -178,6 +210,17 @@ const setEventListeners = function () {
   $('#chat-btn').on('click', onOpenChat)
   $('#close-chat-btn').on('click', onCloseChat)
   $('#chat-form').on('submit', onSendChat)
+  $('#settings-btn').on('click', onOpenSettings)
+  $('#close-settings-btn').on('click', onCloseSettings)
+  $('.save-settings-btn').on('click', onSaveSettings)
+  $('.x-item').on('click', function () {
+    const value = $(this).text()
+    $('#x-token').text(value)
+  })
+  $('.o-item').on('click', function () {
+    const value = $(this).text()
+    $('#o-token').text(value)
+  })
   $('#reset-btn').on('click', function () {
     gameReset()
     $('#reset-btn').addClass('hidden')
