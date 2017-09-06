@@ -57,8 +57,10 @@ const onClickSquare = function () {
         $('#' + winningNumbers[2]).css('background-color', '#00335D')
         $('.jumbotron-text').text('').html('<h3>WINNER: ' + letterToPlay.toUpperCase() + '!</h3>')
         $('.jumbotron-text').fadeIn(200).fadeOut(200).fadeIn(200).fadeOut(200).fadeIn(200).fadeIn(200).fadeOut(200).fadeIn(200)
-        if ((($('#o-token').text()) === 'Evil Empire')) { // Easter egg ;)
+        if ((($('#o-token').text()) === 'Evil Empire' && letterToPlay === 'o')) { // Easter egg ;)
           $('.jumbotron-text').text('Ugh.')
+        } else if ((($('#o-token').text()) === 'Evil Empire' && letterToPlay === 'x')) {
+          $('.jumbotron-text').text('Yankees lose!')
         }
         $('#reset-btn').removeClass('hidden')
         $('#online-play-btn').addClass('hidden')

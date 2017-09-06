@@ -32,4 +32,4 @@ For an additional challenge, I added the ability to play multiplayer games acros
 
 Implementing the watcher function proved to be quite challenging. At first, I was only able to get player 1's moves to display on player 2's screen, but not the other way around. Through much trial and error, and dozens of console.logs, I was able to successfully debug the problem. The watcher, which was running on both player 1 and player 2's games, was watching for changes to the game with the ID generated when the user logs in, and not the game that both players had joined. Once I recognized this, I implemented the changes and added new game mechanics to ensure that online games maintain the same turn structure.
 
-So far I've been able to implement a local chat function, but have not yet devised a way to send messages from device to device. In future updates I'd like to add this functionality.
+So far I've been able to implement a local chat function, but have not yet devised a way to send messages from device to device. In future updates I'd like to add this functionality. Additionally, I'd like to add media queries to make the game display properly on mobile devices.
