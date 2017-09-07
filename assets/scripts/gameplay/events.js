@@ -163,27 +163,9 @@ const onHostGame = function (event) {
   })
 }
 
-const onOpenChat = function () {
-  $('.chat-div').removeClass('hidden')
-  $('.game-info').addClass('hidden')
-  $('.settings-div').addClass('hidden')
-}
-
-const onCloseChat = function () {
-  $('.chat-div').addClass('hidden')
-  $('.game-info').removeClass('hidden')
-}
-
-const onSendChat = function (event) {
-  event.preventDefault()
-  const data = getFormFields(event.target)
-  $('.chat-area').append('<p class="chat-text"><strong>' + userStore.userSession.user.email + ':</strong> ' + data.comment + '</p>')
-}
-
 const onOpenSettings = function () {
   $('.settings-div').removeClass('hidden')
   $('.game-info').addClass('hidden')
-  $('.chat-div').addClass('hidden')
 }
 
 const onSaveSettings = function () {
@@ -219,9 +201,6 @@ const setEventListeners = function () {
   $('#change-pass').on('submit', onChangePass)
   $('#join-game-form').on('submit', onJoinGame)
   $('#host-game-btn').on('click', onHostGame)
-  $('#chat-btn').on('click', onOpenChat)
-  $('#close-chat-btn').on('click', onCloseChat)
-  $('#chat-form').on('submit', onSendChat)
   $('#settings-btn').on('click', onOpenSettings)
   $('.save-settings-btn').on('click', onSaveSettings)
   $('.x-item').on('click', function () {
