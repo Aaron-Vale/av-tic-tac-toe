@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html>
+    <head>
+      <title>Tic Tac Toe</title>
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+
+      <!-- Do not add `link` tags-->
+      <link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
+
+      <!-- Do not add `script` tags-->
+      <script src="public/vendor.js" type="text/javascript" charset="utf-8" defer></script>
+      <script src="public/application.js" type="text/javascript" charset="utf-8" defer></script>
+    </head>
+    <body class="container-fluid">
+      <!--Start Login View -->
+      <div class="container login-view">
+        <div id="alert-div" class="alert alert-div hidden" role="alert">
+        </div>
+        <div class="row">
+          <div class="col-xs-2">
+          </div>
+          <div class="col-xs-8">
+            <h1 class="login-title">Tic-Tac-Toe</h1>
+          </div>
+          <div class="col-xs-2">
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-xs-2">
+          </div>
+          <div class="col-xs-2">
+            <h2 class="login-subhead">Log In</h2>
+          </div>
+          <div class="col-xs-4">
+          </div>
+          <div class="col-xs-2">
+            <h2 class="login-subhead">Sign Up</h2>
+          </div>
+          <div class="col-xs-2">
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-xs-2">
+          </div>
+          <div class="col-xs-2">
+            <form id="login-form">
+              <div class="form-group">
+                <input type="email" name="credentials[email]" id="login-email" placeholder="Your Email">
+                <input type="password" name="credentials[password]" id="login-password" placeholder="Your Password">
+              </div>
+              <button type="submit" class="btn btn-success">Log In</button>
+            </form>
+          </div>
+          <div class="col-xs-4">
+          </div>
+          <div class="col-xs-2">
+            <form id="signup-form">
+              <div class="form-group">
+                <input type="email" name="credentials[email]" id="signup-email" placeholder="Your Email">
+                <input type="password" name="credentials[password]" id="signup-password" placeholder="Your Password">
+                <input type="password" name="credentials[password_confirmation]" id="signup-password-confirmation" placeholder="Confirm Password">
+              </div>
+              <button type="submit" class="btn btn-success">Register</button>
+            </form>
+          </div>
+          <div class="col-xs-2">
+            <p class="signup-info"></p>
+          </div>
+        </div>
+        <footer>
+          <h3 class="footer-text">Made With &hearts; by Aaron Vale   |   Go sOX!</h3>
+        </footer>
+      </div>
+      <!--End Login-View  -->
+
+
+      <!-- Start Game-View -->
+      <div class="game-view hidden">
+        <div class="container">
+          <div class="row header">
+            <div class="col-xs-4">
+              <div class="buttons-left">
+                <button id="settings-btn" class="btn btn-left">Settings</button>
+              </div>
+            </div>
+            <div class="col-xs-4">
+              <h1>Tic Tac Toe</h1>
+            </div>
+            <div class="col-xs-4">
+              <div class="buttons">
+                <button id="online-play-btn" type="button" data-toggle="modal" data-target="#onlinePlayModal" class="btn">Online Play</button>
+                <button id="reset-btn" class="btn hidden">Play Again?</button>
+                <button type="button" class="btn game-btn change-pass" data-toggle="modal" data-target="#changePassModal">Change Password</button>
+                <button class="btn game-btn logout-btn">Sign Out</button>
+
+                <!-- Online Play Modal -->
+                <div class="modal fade" id="onlinePlayModal" tabindex="-1" aria-hidden="true">
+                  <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Join a Game</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                      </div>
+                      <div class="modal-body">
+                        <form id="join-game-form">
+                          <div class="form-group">
+                            <label class="form-control-label">To join another player's game, enter their game ID below and press Join Game.</label>
+                            <input type="number" class="form-control" name="id" placeholder="ID">
+                            <button type="submit" class="btn btn-primary">Join Game</button>
+                          </div>
+                        </form>
+                        <p>To host an online game, click the button below.</p>
+                        <button id="host-game-btn" class="btn btn-success">Host Game</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!--Change Password Modal  -->
+                <div class="modal fade" id="changePassModal" tabindex="-1" aria-hidden="true">
+                  <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title">Change Password</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                      </div>
+                      <div class="modal-body">
+                        <form id="change-pass">
+                          <div class="form-group">
+                            <label class="form-control-label">Old Password</label>
+                            <input type="password" class="form-control" name="passwords[old]" placeholder="Old Password">
+                          </div>
+                          <div class="form-group">
+                            <label class="form-control-label">New Password</label>
+                            <input type="password" class="form-control" name="passwords[new]" placeholder="New Password">
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                          </div>
+                        </form>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </div>
+          <div class="row content">
+            <div class="aside col-xs-3">
+              <div class="settings-div hidden text-center">
+                <h2>Game Settings</h2>
+                  <h2>X Token Display</h2>
+                  <div class="dropdown">
+                    <button class="btn btn-secondary dropdown-toggle" type="button" id="x-token" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      X (Default)
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="x-token">
+                      <a class="dropdown-item x-item">X (Default)</a>
+                      <a class="dropdown-item x-item">Hanging Sox Logo</a>
+                      <a class="dropdown-item x-item">Crossed Bats</a>
+                    </div>
+                  </div>
+                  <h2 class="h2-o">O Token Display</h2>
+                  <div class="dropdown">
+                    <button class="btn btn-secondary dropdown-toggle" type="button" id="o-token" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      O (Default)
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="o-token">
+                      <a class="dropdown-item o-item">O (Default)</a>
+                      <a class="dropdown-item o-item">Hanging Sox Logo</a>
+                      <a class="dropdown-item o-item">Red Sox Logo</a>
+                      <a class="dropdown-item o-item">Baseball</a>
+                      <a class="dropdown-item o-item">Evil Empire</a>
+                    </div>
+                  </div>
+                <button type="submit" class="btn btn-success save-settings-btn">Save Settings</button>
+              </div>
+              <div class="game-info">
+                <h2>Game Info</h2>
+                <div class="fenway-jumbotron">
+                  <p class="game-id"></p>
+                  <p class="jumbotron-text"></p>
+                </div>
+                <h2>At Bat</h2>
+                <div class="at-bat">
+                  <p class="now-up"></p>
+                </div>
+                <h2>Standings</h2>
+                <table class="table">
+                  <tr>
+                    <td>Player</td>
+                    <td>Wins</td>
+                    <td>Losses</td>
+                    <td>Ties</td>
+                  </tr>
+                  <tr>
+                    <td>X</td>
+                    <td id="x-wins">0</td>
+                    <td id="x-losses">0</td>
+                    <td id="x-ties">0</td>
+                  </tr>
+                  <tr>
+                    <td>O</td>
+                    <td id="o-wins">0</td>
+                    <td id="o-losses">0</td>
+                    <td id="o-ties">0</td>
+                  </tr>
+                </table>
+              </div>
+            </div>
+            <div class="board-div col-xs-9 text-center">
+              <section class="board-background">
+                <div id="0" class="board-square">
+                </div>
+                <div id="1" class="board-square">
+                </div>
+                <div id="2" class="board-square">
+                </div>
+                <div id="3" class="board-square">
+                </div>
+                <div id="4" class="board-square">
+                </div>
+                <div id="5" class="board-square">
+                </div>
+                <div id="6" class="board-square">
+                </div>
+                <div id="7" class="board-square">
+                </div>
+                <div id="8" class="board-square">
+                </div>
+              </section>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </body>
+</html>
